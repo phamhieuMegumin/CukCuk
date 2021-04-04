@@ -1,19 +1,50 @@
 <template>
-  <div>
-    <select name="" id="">
-      <option value="0">Nam</option>
-      <option value="1">Nữ</option>
-      <option value="">Value 3</option>
-    </select>
+  <div class="field__combobox">
+    <lable for="">{{ labelFor }}</lable>
+    <div class="combobox" @click="selectOption">
+      <div class="text">{{ optionText[valueCurrent] }}</div>
+      <div class="drop__down__icon"></div>
+    </div>
+    <div v-if="isShowOption" class="combobox__option">
+      <option
+        v-for="(valueItem, index) in optionValue"
+        :value="valueItem"
+        :key="index"
+        @click="changeValue"
+        >{{ optionText[index] }}</option
+      >
+    </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["optionValue", "optionText", "labelFor"],
+  data() {
+    return {
+      valueCurrent: "",
+      isShowOption: false,
+    };
+  },
+  methods: {
+    changeValue: function(e) {
+      this.valueCurrent = e.target.value;
+      this.selectOption();
+    },
+    selectOption: function() {
+      this.isShowOption = !this.isShowOption;
+      // this.isShowOption = true;
+    },
+  },
+};
 </script>
 
 <style scoped>
-select {
+.field__combobox {
+  margin-top: 10px;
+  position: relative;
+}
+.combobox {
   height: 40px;
   width: 100%;
   border: 1px solid #bbbbbb;
@@ -21,16 +52,46 @@ select {
   padding-right: 16px;
   border-radius: 4px;
   outline: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   box-sizing: border-box;
-}
-option {
-  height: 30px;
-}
-option:hover {
-  background: #e9ebee;
+  cursor: pointer;
 }
 
-select:hover {
+.combobox:hover {
   border-color: #019160;
+}
+.drop__down__icon {
+  background-image: url("../../assets/icon/btn-next-page.svg");
+  width: 13px;
+  height: 13px;
+  background-size: contain;
+  transform: rotate(90deg);
+}
+.combobox__option {
+  position: absolute;
+  left: 0;
+  top: 62px;
+  border: 1px solid #bbbbbb;
+  border-radius: 4px;
+  width: 100%;
+  z-index: 9999;
+  background-color: white;
+}
+.combobox__option > * {
+  height: 40px;
+  line-height: 40px;
+  padding: 0 16px;
+  cursor: pointer;
+}
+.combobox__option > *:hover {
+  background: #e9ebee;
+}
+lable {
+  font-size: 13px;
+  font-family: GoogleSans-Medium;
+  margin-bottom: 4px;
+  display: block;
 }
 </style>

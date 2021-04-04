@@ -22,7 +22,7 @@
             :showModal="showModal"
             @handleCloseModal="changeShowModal"
           />
-          <CustomerItems
+          <EmployeeItem
             v-for="(item, index) in customers"
             :key="index"
             :customer="item"
@@ -35,13 +35,13 @@
 </template>
 
 <script>
-import CustomerItems from "./CustomerItems.vue";
+import EmployeeItem from "./EmployeeItem.vue";
 import Modal from "../component/Modal";
 import axios from "axios";
 export default {
   props: ["addModal"],
   components: {
-    CustomerItems,
+    EmployeeItem,
     Modal,
   },
   created() {

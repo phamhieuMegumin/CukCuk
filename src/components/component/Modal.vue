@@ -67,7 +67,11 @@
                         v-model="FullName"
                         :setValue="customerInfo ? customerInfo.FullName : ''"
                       />
-                      <Dropdown />
+                      <Dropdown
+                        :optionValue="['0', '1', '2']"
+                        :optionText="['Nam', 'Nữ', 'Khác']"
+                        :labelFor="'Giới tính'"
+                      />
                       <Input
                         :inputLabel="true"
                         :labelContent="'Ngày cấp'"
@@ -96,14 +100,10 @@
                   </div>
                   <div class="modal__input-top">
                     <div class="modal__input--middle">
-                      <Input
-                        :inputLabel="true"
-                        :labelContent="'Vị trí'"
-                        :labelFor="'customerCode'"
-                        v-model="CustomerCode"
-                        :setValue="
-                          customerInfo ? customerInfo.CustomerCode : ''
-                        "
+                      <Dropdown
+                        :optionValue="['0', '1', '2']"
+                        :optionText="['Nam', 'Nữ', 'Khác']"
+                        :labelFor="'Vị trí'"
                       />
                       <Input
                         :inputLabel="true"
@@ -122,12 +122,10 @@
                       />
                     </div>
                     <div class="modal__input--left">
-                      <Input
-                        :inputLabel="true"
-                        :labelContent="'Phòng ban'"
-                        :labelFor="'customerName'"
-                        v-model="FullName"
-                        :setValue="customerInfo ? customerInfo.FullName : ''"
+                      <Dropdown
+                        :optionValue="['0', '1', '2']"
+                        :optionText="['Nam', 'Nữ', 'Không xác định']"
+                        :labelFor="'Phòng ban'"
                       />
                       <Input
                         :inputLabel="true"
@@ -135,12 +133,10 @@
                         :labelFor="'customerGroupName'"
                         v-model="CustomerGroupId"
                       />
-                      <Input
-                        :inputLabel="true"
-                        :labelContent="'Tình trạng công việc'"
-                        :labelFor="'customerBirthDay'"
-                        v-model="DateOfBirth"
-                        :setValue="customerInfo ? customerInfo.DateOfBirth : ''"
+                      <Dropdown
+                        :optionValue="['0', '1', '2']"
+                        :optionText="['Nam', 'Nữ', 'Không xác định']"
+                        :labelFor="'Tình trạng công việc'"
                       />
                     </div>
                   </div>

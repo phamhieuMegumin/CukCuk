@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <ListCustomer :addModal="showModal" />
+      <ListEmployee :addModal="showModal" />
     </div>
   </div>
 </template>
@@ -29,9 +29,9 @@
 <script>
 import Button from "../component/Button.vue";
 import Input from "../component/Input.vue";
-import ListCustomer from "../customer/ListCustomer.vue";
+import ListEmployee from "../employee/ListEmployee.vue";
 export default {
-  components: { Button, Input, ListCustomer },
+  components: { Button, Input, ListEmployee },
   data() {
     return {
       showModal: true,
