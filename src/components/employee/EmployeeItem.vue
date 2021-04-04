@@ -4,6 +4,8 @@
       getInfo(customer.CustomerId);
       handelShowModal();
     "
+    @click="selectedItem"
+    :class="[isActive ? 'active' : '']"
   >
     <td>{{ customer.CustomerCode }}</td>
     <td>{{ customer.FullName }}</td>
@@ -20,6 +22,11 @@
 <script>
 export default {
   props: ["customer"],
+  data() {
+    return {
+      isActive: false,
+    };
+  },
   computed: {
     formatDDMMYYY: function() {
       const newday = new Date(this.customer.DateOfBirth);
@@ -33,6 +40,9 @@ export default {
     getInfo: function() {},
     handelShowModal: function() {
       this.$emit("handleShowModal");
+    },
+    selectedItem: function() {
+      this.isActive = !this.isActive;
     },
   },
 };

@@ -1,8 +1,10 @@
 <template>
   <div class="field__combobox">
-    <lable for="">{{ labelFor }}</lable>
+    <lable v-if="labelFor">{{ labelFor }}</lable>
     <div class="combobox" @click="selectOption">
-      <div class="text">{{ optionText[valueCurrent] }}</div>
+      <div class="text">
+        {{ valueCurrent ? optionText[valueCurrent] : optionText[0] }}
+      </div>
       <div class="drop__down__icon"></div>
     </div>
     <div v-if="isShowOption" class="combobox__option">
@@ -33,7 +35,6 @@ export default {
     },
     selectOption: function() {
       this.isShowOption = !this.isShowOption;
-      // this.isShowOption = true;
     },
   },
 };
@@ -72,7 +73,7 @@ export default {
 .combobox__option {
   position: absolute;
   left: 0;
-  top: 62px;
+  top: calc(100% + 1px);
   border: 1px solid #bbbbbb;
   border-radius: 4px;
   width: 100%;

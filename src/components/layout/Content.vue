@@ -2,22 +2,38 @@
   <div>
     <div class="main__content">
       <div class="main__content__top">
-        <div class="main__content__left">
-          <span>Danh sách nhân viên</span>
+        <span>Danh sách nhân viên</span>
+        <div @click="addModal">
+          <Button :btnIcon="true" :content="'Thêm nhân viên'" />
+        </div>
+      </div>
+      <div class="main__content__bottom">
+        <div class="main__content__bottom-input">
           <Input
             :inputIcon="true"
-            :placeholder="'Tìm kiếm theo Mã, Tên Khác'"
+            :placeholder="'Tìm kiếm theo Mã, Tên hoặc Số điện thoại'"
+          />
+          <Dropdown
+            :optionValue="['0', '1', '2']"
+            :optionText="['Tất cả phòng ban', 'Phòng nhân sự', 'Phòng đào tạo']"
+          />
+          <Dropdown
+            :optionValue="['0', '1', '2']"
+            :optionText="[
+              'Tất cả vị trí',
+              'Giám đốc',
+              'Thu ngân',
+              'Nhân viên Marketing',
+            ]"
           />
         </div>
-        <div class="main__content__right">
-          <div @click="addModal">
-            <Button :btnIcon="true" :content="'Thêm khách hàng'" />
+
+        <div class="main__content__right-btn">
+          <div class="delete__btn">
+            <div class="x__icon"></div>
           </div>
-          <div class="main__content__right-btn">
-            <Button :content="'Delete'" :btnDelete="true" />
-            <div class="btn__refresh">
-              <div class="refresh__icon"></div>
-            </div>
+          <div class="btn__refresh">
+            <div class="refresh__icon"></div>
           </div>
         </div>
       </div>
@@ -28,10 +44,11 @@
 
 <script>
 import Button from "../component/Button.vue";
+import Dropdown from "../component/Dropdown.vue";
 import Input from "../component/Input.vue";
 import ListEmployee from "../employee/ListEmployee.vue";
 export default {
-  components: { Button, Input, ListEmployee },
+  components: { Button, Input, ListEmployee, Dropdown },
   data() {
     return {
       showModal: true,
@@ -47,28 +64,61 @@ export default {
 
 <style scoped>
 .main__content {
-  padding: 24px;
+  padding: 24px 16px;
   position: relative;
 }
 
 .main__content__top {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
 }
 
-.main__content__left {
-  margin-top: 5px;
-}
-
-.main__content__left > span {
+.main__content__top > span {
   font-family: GoogleSans-Bold;
   font-size: 20px;
-  margin-bottom: 14px;
   display: block;
+}
+
+.main__content__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.main__content__bottom-input {
+  display: flex;
+  align-items: center;
+  width: 70%;
+}
+.main__content__bottom-input .field__combobox {
+  margin-top: 0;
+  width: 230px;
+  margin-left: 16px;
 }
 .main__content__right-btn {
   display: flex;
-  margin-top: 5px;
+}
+/*  */
+/* Btn group */
+/*  */
+.delete__btn {
+  border: 1px solid #dbdeff;
+  border-radius: 4px;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.x__icon {
+  margin: auto;
+  width: 20px;
+  height: 20px;
+  right: 16px;
+  top: 16px;
+  background-image: url("../../assets/icon/x.svg");
+  background-size: contain;
 }
 .btn__refresh {
   height: 40px;
@@ -163,44 +213,6 @@ export default {
   font-family: GoogleSans-Bold;
 }
 
-.modal__content__top {
-  padding: 24px;
-}
-
-.modal__main__content-top {
-  display: flex;
-}
-
-.modal__main__content-top > * {
-  width: 33.333333%;
-  max-width: 33.333333%;
-}
-
-.modal__title {
-  font-size: 20px;
-  text-transform: capitalize;
-  word-spacing: 3px;
-  margin-bottom: 10px;
-}
-.modal__user__img {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-.modal__img__box {
-  border: 1px solid #bbbbbb;
-  border-radius: 50%;
-  width: 180px;
-  height: 180px;
-  overflow: hidden;
-  background-image: url("../../assets/img/default-avatar.jpg");
-  background-size: contain;
-  background-position: center;
-}
-.modal__input--middle {
-  margin: 0 10px;
-}
 .field__input__lable {
   margin-bottom: 15px;
 }
@@ -209,34 +221,6 @@ export default {
 }
 .img__choose__notify > p:nth-child(2) {
   font-family: GoogleSans-Bold;
-}
-.checkbox__list {
-  display: flex;
-  margin-top: 10px;
-}
-.checkbox__item {
-  display: flex;
-  align-items: center;
-}
-.checkbox__item + .checkbox__item {
-  margin-left: 20px;
-}
-.checkbox__item > span {
-  margin-left: 5px;
-}
-.modal__content__middle {
-  display: flex;
-}
-.modal__content__middle__left {
-  width: 66.6666667%;
-  max-width: 66.6666667%;
-  margin-right: 10px;
-}
-.modal__content__middle__left input {
-  width: 100%;
-}
-.address__input input {
-  width: 100%;
 }
 
 .btn__bottom__group {

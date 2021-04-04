@@ -25,38 +25,34 @@
                         :inputLabel="true"
                         :labelContent="'Mã nhân viên'"
                         :labelFor="'customerCode'"
-                        v-model="CustomerCode"
-                        :setValue="
-                          customerInfo ? customerInfo.CustomerCode : ''
-                        "
+                        v-model="employee.CustomerCode"
+                        ref="customerCode"
                       />
                       <Input
                         :inputLabel="true"
                         :labelContent="'Ngày sinh'"
                         :labelFor="'customerBirthDay'"
                         :date="true"
-                        v-model="DateOfBirth"
-                        :setValue="customerInfo ? customerInfo.DateOfBirth : ''"
+                        v-model="employee.DateOfBirth"
                       />
                       <Input
                         :inputLabel="true"
                         :labelContent="'Số CMTND/Căn cước'"
                         :labelFor="'customerGroupId'"
-                        v-model="MemberCardCode"
+                        v-model="employee.MemberCardCode"
                       />
                       <Input
                         :inputLabel="true"
                         :labelContent="'Nơi cấp'"
                         :labelFor="'customerGroupId'"
-                        v-model="MemberCardCode"
+                        v-model="employee.MemberCardCode"
                       />
                       <Input
                         :inputLabel="true"
                         :labelContent="'Email'"
                         :labelFor="'customerEmail'"
                         :placeholder="'example@domain.com'"
-                        v-model="Email"
-                        :setValue="customerInfo ? customerInfo.Email : ''"
+                        v-model="employee.Email"
                       />
                     </div>
                     <div class="modal__input--left">
@@ -64,8 +60,7 @@
                         :inputLabel="true"
                         :labelContent="'Họ và tên'"
                         :labelFor="'customerName'"
-                        v-model="FullName"
-                        :setValue="customerInfo ? customerInfo.FullName : ''"
+                        v-model="employee.FullName"
                       />
                       <Dropdown
                         :optionValue="['0', '1', '2']"
@@ -77,15 +72,14 @@
                         :labelContent="'Ngày cấp'"
                         :labelFor="'customerBirthDay'"
                         :date="true"
-                        v-model="DateOfBirth"
-                        :setValue="customerInfo ? customerInfo.DateOfBirth : ''"
+                        v-model="employee.DateOfBirth"
                       />
                       <div class="line"></div>
                       <Input
                         :inputLabel="true"
                         :labelContent="'Số điện thoại'"
                         :labelFor="'customerGroupName'"
-                        v-model="CustomerGroupId"
+                        v-model="employee.CustomerGroupId"
                       />
                     </div>
                   </div>
@@ -109,16 +103,14 @@
                         :inputLabel="true"
                         :labelContent="'Mã số thuế cá nhân'"
                         :labelFor="'customerBirthDay'"
-                        v-model="DateOfBirth"
-                        :setValue="customerInfo ? customerInfo.DateOfBirth : ''"
+                        v-model="employee.DateOfBirth"
                       />
                       <Input
                         :inputLabel="true"
                         :labelContent="'Ngày gia nhập công ty'"
                         :labelFor="'customerBirthDay'"
-                        v-model="DateOfBirth"
+                        v-model="employee.DateOfBirth"
                         :date="true"
-                        :setValue="customerInfo ? customerInfo.DateOfBirth : ''"
                       />
                     </div>
                     <div class="modal__input--left">
@@ -131,7 +123,8 @@
                         :inputLabel="true"
                         :labelContent="'Mức lương cơ bản'"
                         :labelFor="'customerGroupName'"
-                        v-model="CustomerGroupId"
+                        v-model="employee.CustomerGroupId"
+                        :setValue="formatMoney"
                       />
                       <Dropdown
                         :optionValue="['0', '1', '2']"
@@ -176,26 +169,48 @@ import Input from "./Input";
 export default {
   data() {
     return {
-      CustomerCode: "",
-      FullName: "",
-      Gender: 1,
-      Address: "",
-      DateOfBirth: null,
-      Email: "",
-      PhoneNumber: "",
-      CustomerGroupId: "0cb5da7c-59cd-4953-b17e-c9adc9161663",
-      DebitAmount: null,
-      MemberCardCode: "",
-      CompanyName: "",
-      CompanyTaxCode: "",
-      IsStopFollow: false,
-      CustomerGroupName: "",
-      GenderName: "Nam",
-      MISAEntityState: 0,
+      employee: {
+        CustomerCode: "",
+        FullName: "",
+        Gender: 1,
+        Address: "",
+        DateOfBirth: null,
+        Email: "",
+        PhoneNumber: "",
+        CustomerGroupId: "",
+        DebitAmount: null,
+        MemberCardCode: "",
+        CompanyName: "",
+        CompanyTaxCode: "",
+        IsStopFollow: false,
+        CustomerGroupName: "",
+        GenderName: "Nam",
+        MISAEntityState: 0,
+      },
+
+      // money
+      formatMoney: "",
     };
+  },
+  computed: {
+    fomatMoney() {
+      let currentValue = this.employee.CustomerGroupId;
+      currentValue = currentValue.replaceAll(".", "");
+      if (this.employee.CustomerGroupId.length > 3) {
+        const money = currentValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return money;
+      }
+      return currentValue;
+    },
+  },
+  watch: {
+    "employee.CustomerGroupId": function() {
+      this.formatMoney = this.fomatMoney;
+    },
   },
   components: { Button, Input, Dropdown },
   props: ["customerModal", "deleteModal", "showModal"],
+
   methods: {
     closeModal: function() {
       this.$emit("handleCloseModal");
