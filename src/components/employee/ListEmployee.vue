@@ -38,7 +38,6 @@
             @handleShowModal="changeShowModal"
             @getDeleteId="getDeleteId"
             @getInfo="getInfo"
-            :index="index"
             :active="isSelected"
           />
         </tbody>
@@ -52,7 +51,7 @@ import EmployeeItem from "./EmployeeItem.vue";
 import Modal from "../component/Modal";
 import axios from "axios";
 export default {
-  props: ["addModal", "deleMode"],
+  props: ["addModal", "deleMode", "filter"],
   components: {
     EmployeeItem,
     Modal,
@@ -63,7 +62,8 @@ export default {
 
   data() {
     return {
-      employees: [],
+      employees: null,
+      employeesFilter: null,
       showModal: false,
       showDeleteModal: false,
       employeeCodeMax: null,
@@ -79,12 +79,26 @@ export default {
     deleMode() {
       this.handleDeleteModal();
     },
+    filter() {
+      this.employees = [...this.employeesFilter];
+
+      this.employees = this.handleFilter;
+    },
+  },
+
+  computed: {
+    handleFilter() {
+      if (this.filter != "0")
+        return this.employees.filter((item) => item.PositionId == this.filter);
+      else return this.employees;
+    },
   },
 
   methods: {
     async getData() {
       const data = await axios.get("http://api.manhnv.net/v1/Employees");
       this.employees = data.data;
+      this.employeesFilter = data.data;
     },
     changeShowModal: function() {
       this.showModal = !this.showModal;
@@ -95,9 +109,9 @@ export default {
     handleDeleteModal: function() {
       this.showDeleteModal = !this.showDeleteModal;
     },
-    getDeleteId(employeeId, employeeCode, index) {
-      console.log(employeeId, employeeCode, index);
-      this.isSelected = index;
+    getDeleteId(employeeId, employeeCode) {
+      console.log(employeeId, employeeCode);
+      this.isSelected = employeeId;
       this.deleteEmployee = {
         employeeId,
         employeeCode,

@@ -5,7 +5,7 @@
       handelShowModal();
     "
     @click="selectedItem(employee.EmployeeId, employee.EmployeeCode)"
-    :class="[index == active ? 'active' : '']"
+    :class="[employee.EmployeeId == active ? 'active' : '']"
   >
     <td>{{ employee.EmployeeCode }}</td>
     <td>{{ employee.FullName }}</td>
@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  props: ["employee", "index", "active"],
+  props: ["employee", "active"],
   data() {
     return {
       // isActive: false,
@@ -46,7 +46,7 @@ export default {
     },
     selectedItem: function(employeesId, employeeCode) {
       // this.isActive = !this.isActive;
-      this.$emit("getDeleteId", employeesId, employeeCode, this.index);
+      this.$emit("getDeleteId", employeesId, employeeCode);
     },
   },
 };

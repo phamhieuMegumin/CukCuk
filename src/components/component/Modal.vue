@@ -181,7 +181,7 @@
           <div class="delete__content">
             <div class="popup__title">Xóa nhân viên</div>
             <h1>
-              Bạn có chắc muốn xóa nhân viên
+              Bạn có chắc muốn xóa nhân viên có mã
               {{ deleteEmployee.employeeCode }} hay không?
             </h1>
           </div>

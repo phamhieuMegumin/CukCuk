@@ -5,7 +5,7 @@
     </div>
     <div class="combobox" @click="selectOption">
       <div class="text">
-        {{ valueCurrent }}
+        {{ defaultValue ? optionText[0] : valueCurrent }}
       </div>
       <div class="drop__down__icon"></div>
     </div>
@@ -23,7 +23,14 @@
 
 <script>
 export default {
-  props: ["optionValue", "optionText", "labelFor", "dropName", "value"],
+  props: [
+    "optionValue",
+    "optionText",
+    "labelFor",
+    "dropName",
+    "value",
+    "defaultValue",
+  ],
   data() {
     return {
       valueCurrent: "",
@@ -45,6 +52,7 @@ export default {
         if (e.target.value == this.optionValue[i])
           this.valueCurrent = this.optionText[i];
       }
+      this.defaultValue = false;
       this.$emit("getValue", e.target.value, this.dropName);
       this.selectOption();
     },
