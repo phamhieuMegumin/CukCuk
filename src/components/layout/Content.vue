@@ -29,7 +29,7 @@
         </div>
 
         <div class="main__content__right-btn">
-          <div class="delete__btn">
+          <div @click="deleteItem" class="delete__btn">
             <div class="x__icon"></div>
           </div>
           <div class="btn__refresh">
@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <ListEmployee :addModal="showModal" />
+      <ListEmployee :addModal="showModal" :deleMode="deleMode" />
     </div>
   </div>
 </template>
@@ -52,11 +52,15 @@ export default {
   data() {
     return {
       showModal: true,
+      deleMode: false,
     };
   },
   methods: {
     addModal: function() {
       this.showModal = !this.showModal;
+    },
+    deleteItem: function() {
+      this.deleMode = !this.deleMode;
     },
   },
 };

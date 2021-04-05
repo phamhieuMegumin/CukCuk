@@ -1,35 +1,36 @@
 <template>
   <tr
     @dblclick="
-      getInfo(customer.CustomerId);
+      getInfo(employee.EmployeeId);
       handelShowModal();
     "
-    @click="selectedItem"
-    :class="[isActive ? 'active' : '']"
+    @click="selectedItem(employee.EmployeeId, employee.EmployeeCode)"
+    :class="[index == active ? 'active' : '']"
   >
-    <td>{{ customer.CustomerCode }}</td>
-    <td>{{ customer.FullName }}</td>
-    <td>{{ customer.GenderName }}</td>
+    <td>{{ employee.EmployeeCode }}</td>
+    <td>{{ employee.FullName }}</td>
+    <td>{{ employee.GenderName }}</td>
     <td>{{ formatDDMMYYY }}</td>
-    <td>{{ customer.CustomerGroupName }}</td>
-    <td>{{ customer.PhoneNumber }}</td>
-    <td>{{ customer.Email }}</td>
-    <td>{{ customer.Address }}</td>
-    <td></td>
+    <td>{{ employee.PhoneNumber }}</td>
+    <td>{{ employee.Email }}</td>
+    <td>{{ employee.PositionName }}</td>
+    <td>{{ employee.DepartmentName }}</td>
+    <td>{{ employee.Salary }}</td>
+    <td>{{ employee.WorkStatusName }}</td>
   </tr>
 </template>
 
 <script>
 export default {
-  props: ["customer"],
+  props: ["employee", "index", "active"],
   data() {
     return {
-      isActive: false,
+      // isActive: false,
     };
   },
   computed: {
     formatDDMMYYY: function() {
-      const newday = new Date(this.customer.DateOfBirth);
+      const newday = new Date(this.employee.DateOfBirth);
       const strDay = newday.getDate();
       const strMonth = newday.getMonth();
       const strYear = newday.getFullYear();
@@ -37,12 +38,15 @@ export default {
     },
   },
   methods: {
-    getInfo: function() {},
+    getInfo: function(employeeId) {
+      this.$emit("getInfo", employeeId);
+    },
     handelShowModal: function() {
       this.$emit("handleShowModal");
     },
-    selectedItem: function() {
-      this.isActive = !this.isActive;
+    selectedItem: function(employeesId, employeeCode) {
+      // this.isActive = !this.isActive;
+      this.$emit("getDeleteId", employeesId, employeeCode, this.index);
     },
   },
 };

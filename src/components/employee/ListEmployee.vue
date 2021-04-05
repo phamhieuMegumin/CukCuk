@@ -21,12 +21,25 @@
             :customerModal="true"
             :showModal="showModal"
             @handleCloseModal="changeShowModal"
+            :setValue="employeesInfo"
+            @isRender="isRender"
+          />
+          <Modal
+            :showModal="showDeleteModal"
+            @handleCloseModal="changeShowDeleteModal"
+            :deleteModal="true"
+            :deleteEmployee="deleteEmployee"
+            @isRender="isRender"
           />
           <EmployeeItem
-            v-for="(item, index) in customers"
+            v-for="(item, index) in employees"
             :key="index"
-            :customer="item"
+            :employee="item"
             @handleShowModal="changeShowModal"
+            @getDeleteId="getDeleteId"
+            @getInfo="getInfo"
+            :index="index"
+            :active="isSelected"
           />
         </tbody>
       </table>
@@ -39,7 +52,7 @@ import EmployeeItem from "./EmployeeItem.vue";
 import Modal from "../component/Modal";
 import axios from "axios";
 export default {
-  props: ["addModal"],
+  props: ["addModal", "deleMode"],
   components: {
     EmployeeItem,
     Modal,
@@ -50,23 +63,58 @@ export default {
 
   data() {
     return {
-      customers: [],
+      employees: [],
       showModal: false,
+      showDeleteModal: false,
+      employeeCodeMax: null,
+      employeesInfo: null,
+      deleteEmployee: null,
+      isSelected: null,
     };
   },
   watch: {
     addModal() {
       this.changeShowModal();
     },
+    deleMode() {
+      this.handleDeleteModal();
+    },
   },
 
   methods: {
     async getData() {
-      const data = await axios.get("http://api.manhnv.net/api/customers");
-      this.customers = data.data;
+      const data = await axios.get("http://api.manhnv.net/v1/Employees");
+      this.employees = data.data;
     },
     changeShowModal: function() {
       this.showModal = !this.showModal;
+    },
+    changeShowDeleteModal: function() {
+      this.showDeleteModal = !this.showDeleteModal;
+    },
+    handleDeleteModal: function() {
+      this.showDeleteModal = !this.showDeleteModal;
+    },
+    getDeleteId(employeeId, employeeCode, index) {
+      console.log(employeeId, employeeCode, index);
+      this.isSelected = index;
+      this.deleteEmployee = {
+        employeeId,
+        employeeCode,
+      };
+    },
+    isRender() {
+      this.getData();
+    },
+    async getInfo(employeeId) {
+      try {
+        const data = await axios.get(
+          `http://api.manhnv.net/v1/Employees/${employeeId}`
+        );
+        this.employeesInfo = data.data;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };
@@ -93,6 +141,7 @@ export default {
 
 .table tr {
   height: 48px;
+  transition: all linear 0.2s;
 }
 .table thead th {
   position: sticky;

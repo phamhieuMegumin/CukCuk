@@ -15,6 +15,7 @@
         :placeholder="placeholder"
         :value="setValue ? setValue : value"
         @input="handleChange"
+        autocomplete="off"
       />
       <div v-if="inputIcon" class="search__icon"></div>
     </div>

@@ -1,9 +1,11 @@
 <template>
   <div class="field__combobox">
-    <lable v-if="labelFor">{{ labelFor }}</lable>
+    <div v-if="labelFor">
+      <label>{{ labelFor }}</label>
+    </div>
     <div class="combobox" @click="selectOption">
       <div class="text">
-        {{ valueCurrent ? optionText[valueCurrent] : optionText[0] }}
+        {{ valueCurrent }}
       </div>
       <div class="drop__down__icon"></div>
     </div>
@@ -21,16 +23,29 @@
 
 <script>
 export default {
-  props: ["optionValue", "optionText", "labelFor"],
+  props: ["optionValue", "optionText", "labelFor", "dropName", "value"],
   data() {
     return {
       valueCurrent: "",
       isShowOption: false,
     };
   },
+  watch: {
+    value() {
+      console.log(this.value);
+      for (let i = 0; i < this.optionValue.length; i++) {
+        if (this.value == this.optionValue[i])
+          this.valueCurrent = this.optionText[i];
+      }
+    },
+  },
   methods: {
     changeValue: function(e) {
-      this.valueCurrent = e.target.value;
+      for (let i = 0; i < this.optionValue.length; i++) {
+        if (e.target.value == this.optionValue[i])
+          this.valueCurrent = this.optionText[i];
+      }
+      this.$emit("getValue", e.target.value, this.dropName);
       this.selectOption();
     },
     selectOption: function() {

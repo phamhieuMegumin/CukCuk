@@ -72,6 +72,7 @@ export default {};
   height: 44px;
   text-decoration: none;
   color: #000;
+  transition: all linear 0.3s;
 }
 .nav__item__icon {
   width: 20px;
