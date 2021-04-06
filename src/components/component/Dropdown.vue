@@ -52,7 +52,7 @@ export default {
         if (e.target.value == this.optionValue[i])
           this.valueCurrent = this.optionText[i];
       }
-      this.defaultValue = false;
+      // this.defaultValue = false;
       this.$emit("getValue", e.target.value, this.dropName);
       this.selectOption();
     },
