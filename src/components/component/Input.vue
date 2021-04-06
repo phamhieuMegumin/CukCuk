@@ -5,9 +5,13 @@
         'field__input',
         inputIcon ? 'field__input--icon' : '',
         inputLabel ? 'field__input__lable' : '',
+        validate ? 'field__input--danger' : '',
       ]"
     >
-      <label v-if="inputLabel" :for="labelFor">{{ labelContent }}</label>
+      <label v-if="inputLabel" :for="labelFor"
+        >{{ labelContent }}
+        <span v-if="required" class="label__required">*</span></label
+      >
       <input
         :type="date ? 'date' : 'text'"
         :id="labelFor"
@@ -15,8 +19,12 @@
         :placeholder="placeholder"
         :value="setValue ? setValue : value"
         @input="handleChange"
+        @blur="handleBlur"
         autocomplete="off"
       />
+      <span class="validate" v-if="required && validate"
+        >this field is required</span
+      >
       <div v-if="inputIcon" class="search__icon"></div>
     </div>
   </div>
@@ -27,6 +35,7 @@ export default {
   data() {
     return {
       text: "",
+      validate: null,
     };
   },
   props: [
@@ -38,10 +47,16 @@ export default {
     "date",
     "value",
     "setValue",
+    "required",
   ],
   methods: {
     handleChange: function(e) {
       this.$emit("input", e.target.value);
+    },
+    handleBlur(e) {
+      if (e.target.value.length == 0 && this.required) {
+        this.validate = true;
+      } else this.validate = false;
     },
   },
 };
@@ -102,5 +117,18 @@ export default {
 }
 input[type="date"] {
   width: 100%;
+}
+.label__required {
+  color: red;
+}
+.validate {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: red;
+  display: block;
+}
+.field__input--danger input {
+  border-color: red;
 }
 </style>

@@ -15,7 +15,7 @@
           />
           <Dropdown
             :optionValue="[
-              '0',
+              '',
               '142cb08f-7c31-21fa-8e90-67245e8b283e',
               '469b3ece-744a-45d5-957d-e8c757976496',
               '17120d02-6ab5-3e43-18cb-66948daf6128',
@@ -28,12 +28,13 @@
               'Phòng Đào tạo',
               'Phòng Công nghệ',
             ]"
-            :defaultValue="defaultValue"
+            :defaultValue="defaultValueDepartment"
             @getValue="handleGetValue"
+            :dropName="'Department'"
           />
           <Dropdown
             :optionValue="[
-              '0',
+              '',
               '3700cc49-55b5-69ea-4929-a2925c0f334d',
               '25c6c36e-1668-7d10-6e09-bf1378b8dc91',
               '148ed882-32b8-218e-9c20-39c2f00615e8',
@@ -44,8 +45,9 @@
               'Thu ngân',
               'Nhân viên Marketing',
             ]"
-            :defaultValue="defaultValue"
+            :defaultValue="defaultValuePosition"
             @getValue="handleGetValue"
+            :dropName="'Position'"
           />
         </div>
 
@@ -61,7 +63,8 @@
       <ListEmployee
         :addModal="showModal"
         :deleMode="deleMode"
-        :filter="filter"
+        :filterByPosition="filterByPosition"
+        :filterByDepartment="filterByDepartment"
       />
     </div>
   </div>
@@ -79,7 +82,10 @@ export default {
       showModal: true,
       deleMode: false,
       filter: null,
-      defaultValue: true,
+      defaultValueDepartment: true,
+      defaultValuePosition: true,
+      filterByDepartment: "",
+      filterByPosition: "",
     };
   },
   methods: {
@@ -89,9 +95,14 @@ export default {
     deleteItem: function() {
       this.deleMode = !this.deleMode;
     },
-    handleGetValue(value) {
-      this.filter = value;
-      this.defaultValue = false;
+    handleGetValue(value, dropName) {
+      if (dropName == "Position") {
+        this.filterByPosition = value;
+        this.defaultValuePosition = false;
+      } else {
+        this.filterByDepartment = value;
+        this.defaultValueDepartment = false;
+      }
     },
   },
 };

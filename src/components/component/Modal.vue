@@ -24,7 +24,8 @@
                       <Input
                         :inputLabel="true"
                         :labelContent="'Mã nhân viên'"
-                        :labelFor="'EmployeeCode(*)'"
+                        :labelFor="'EmployeeCode'"
+                        :required="true"
                         v-model="employee.EmployeeCode"
                       />
                       <Input
@@ -36,8 +37,9 @@
                       />
                       <Input
                         :inputLabel="true"
-                        :labelContent="'Số CMTND/Căn cước(*)'"
+                        :labelContent="'Số CMTND/Căn cước'"
                         :labelFor="'IdentityNumber'"
+                        :required="true"
                         v-model="employee.IdentityNumber"
                       />
                       <Input
@@ -48,17 +50,19 @@
                       />
                       <Input
                         :inputLabel="true"
-                        :labelContent="'Email(*)'"
+                        :labelContent="'Email'"
                         :labelFor="'Email'"
                         :placeholder="'example@domain.com'"
+                        :required="true"
                         v-model="employee.Email"
                       />
                     </div>
                     <div class="modal__input--left">
                       <Input
                         :inputLabel="true"
-                        :labelContent="'Họ và tên(*)'"
+                        :labelContent="'Họ và tên'"
                         :labelFor="'FullName'"
+                        :required="true"
                         v-model="employee.FullName"
                       />
                       <Dropdown
@@ -79,8 +83,9 @@
                       <div class="line"></div>
                       <Input
                         :inputLabel="true"
-                        :labelContent="'Số điện thoại(*)'"
+                        :labelContent="'Số điện thoại'"
                         :labelFor="'PhoneNumber'"
+                        :required="true"
                         v-model="employee.PhoneNumber"
                       />
                     </div>
@@ -182,7 +187,7 @@
             <div class="popup__title">Xóa nhân viên</div>
             <h1>
               Bạn có chắc muốn xóa nhân viên có mã
-              {{ deleteEmployee.employeeCode }} hay không?
+              {{ deleteEmployee ? deleteEmployee.employeeCode : "" }} hay không?
             </h1>
           </div>
           <div class="modal__content__bottom">
@@ -248,6 +253,9 @@ export default {
       method: "post",
     };
   },
+  created() {
+    this.getEmployeeCode();
+  },
   props: [
     "customerModal",
     "deleteModal",
@@ -281,6 +289,7 @@ export default {
   methods: {
     closeModal: function() {
       this.$emit("handleCloseModal");
+      this.resetModal();
     },
     handleGetValue: function(value, name) {
       if (name == "Gender") this.employee.Gender = parseInt(value);
@@ -289,16 +298,19 @@ export default {
       if (name == "DepartmentId") this.employee.DepartmentId = value;
     },
     onSave: async function() {
+      let data = { ...this.employee };
+      if (data.Salary) data.Salary = data.Salary.replaceAll(".", "");
       try {
         await axios({
           method: this.method,
           url: this.url,
-          data: this.employee,
+          data,
         });
         (this.url = "http://api.manhnv.net/v1/Employees"), //reset url
           (this.method = "post"), // reset method
           this.closeModal();
         this.$emit("isRender"); // require reRender
+        this.resetModal(); // resetModal
         alert("them thanh cong");
       } catch (error) {
         console.log(error);
@@ -316,6 +328,49 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    async getEmployeeCode() {
+      try {
+        const data = await axios.get(
+          "http://api.manhnv.net/v1/Employees/NewEmployeeCode"
+        );
+        this.employee.EmployeeCode = data.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    resetModal() {
+      this.getEmployeeCode();
+      this.employee = {
+        EmployeeId: uuidv4(),
+        EmployeeCode: "",
+        FirstName: null,
+        LastName: null,
+        FullName: "",
+        Gender: null,
+        DateOfBirth: null,
+        PhoneNumber: "",
+        Email: "",
+        Address: null,
+        IdentityNumber: "",
+        IdentityDate: null,
+        IdentityPlace: "",
+        JoinDate: null,
+        MaritalStatus: 0,
+        PersonalTaxCode: "",
+        Salary: null,
+        EducationalBackground: 0,
+        WorkStatus: 1,
+        PositionId: null,
+        PositionName: null,
+        DepartmentId: null,
+        DepartmentName: null,
+        QualificationId: null,
+        QualificationName: null,
+        GenderName: "Nam",
+        WorkStatusName: "Đang làm việc",
+        MISAEntityState: 0,
+      };
     },
   },
 };

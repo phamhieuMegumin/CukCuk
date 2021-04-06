@@ -51,7 +51,7 @@ import EmployeeItem from "./EmployeeItem.vue";
 import Modal from "../component/Modal";
 import axios from "axios";
 export default {
-  props: ["addModal", "deleMode", "filter"],
+  props: ["addModal", "deleMode", "filterByPosition", "filterByDepartment"],
   components: {
     EmployeeItem,
     Modal,
@@ -63,7 +63,8 @@ export default {
   data() {
     return {
       employees: null,
-      employeesFilter: null,
+      employeesDepartment: null,
+      employeesPosition: null,
       showModal: false,
       showDeleteModal: false,
       employeeCodeMax: null,
@@ -79,18 +80,11 @@ export default {
     deleMode() {
       this.handleDeleteModal();
     },
-    filter() {
-      this.employees = [...this.employeesFilter];
-
-      this.employees = this.handleFilter;
+    filterByPosition() {
+      this.handleFilter();
     },
-  },
-
-  computed: {
-    handleFilter() {
-      if (this.filter != "0")
-        return this.employees.filter((item) => item.PositionId == this.filter);
-      else return this.employees;
+    filterByDepartment() {
+      this.handleFilter();
     },
   },
 
@@ -98,7 +92,8 @@ export default {
     async getData() {
       const data = await axios.get("http://api.manhnv.net/v1/Employees");
       this.employees = data.data;
-      this.employeesFilter = data.data;
+      this.employeesPosition = data.data;
+      this.employeesDepartment = data.data;
     },
     changeShowModal: function() {
       this.showModal = !this.showModal;
@@ -126,6 +121,22 @@ export default {
           `http://api.manhnv.net/v1/Employees/${employeeId}`
         );
         this.employeesInfo = data.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async handleFilter() {
+      try {
+        const data = await axios.get(
+          `http://api.manhnv.net/v1/Employees/Filter${
+            this.filterByDepartment || this.filterByPosition ? "?" : ""
+          }${this.filterByDepartment ? "DepartmentId=" : ""}${
+            this.filterByDepartment
+          }${this.filterByDepartment && this.filterByPosition ? "&" : ""}${
+            this.filterByPosition ? "PositionId=" : ""
+          }${this.filterByPosition}`
+        );
+        this.employees = data.data;
       } catch (error) {
         console.log(error);
       }

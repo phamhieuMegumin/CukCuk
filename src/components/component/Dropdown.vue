@@ -112,7 +112,7 @@ export default {
 .combobox__option > *:hover {
   background: #e9ebee;
 }
-lable {
+label {
   font-size: 13px;
   font-family: GoogleSans-Medium;
   margin-bottom: 4px;
