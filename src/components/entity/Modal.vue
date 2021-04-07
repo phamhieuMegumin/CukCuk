@@ -204,6 +204,11 @@
         </div>
       </div>
     </div>
+    <ToastMessage
+      :message="message"
+      :error="error"
+      :showMessage="showMessage"
+    />
   </div>
 </template>
 
@@ -213,6 +218,7 @@ import Dropdown from "./Dropdown.vue";
 import Input from "./Input";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import ToastMessage from "./ToastMessage.vue";
 export default {
   data() {
     return {
@@ -251,6 +257,9 @@ export default {
       formatMoney: "",
       url: "http://api.manhnv.net/v1/Employees",
       method: "post",
+      message: null,
+      error: null,
+      showMessage: false,
     };
   },
   created() {
@@ -276,7 +285,7 @@ export default {
   },
   watch: {
     "employee.Salary": function() {
-      this.formatMoney = this.fomatMoney;
+      if (this.employee.Salary) this.formatMoney = this.fomatMoney;
     },
     setValue() {
       this.employee = { ...this.setValue };
@@ -284,7 +293,7 @@ export default {
       this.method = "put";
     },
   },
-  components: { Button, Input, Dropdown },
+  components: { Button, Input, Dropdown, ToastMessage },
 
   methods: {
     closeModal: function() {
@@ -308,12 +317,17 @@ export default {
         });
         (this.url = "http://api.manhnv.net/v1/Employees"), //reset url
           (this.method = "post"), // reset method
-          this.closeModal();
+          (this.message = "Thêm thành công");
+        this.error = false;
+        this.showMessage = !this.showMessage;
+        this.closeModal();
         this.$emit("isRender"); // require reRender
         this.resetModal(); // resetModal
-        alert("them thanh cong");
       } catch (error) {
-        console.log(error);
+        console.log(error.response.data.devMsg);
+        this.message = "Có lỗi xảy ra";
+        this.error = true;
+        this.showMessage = !this.showMessage;
       }
     },
     async handleDeleteEmployee() {

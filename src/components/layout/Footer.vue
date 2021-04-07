@@ -2,7 +2,7 @@
   <div>
     <footer class="footer">
       <div class="current__customer">
-        Hiển thị <span>01-20/123</span> lao động
+        Hiển thị <span>01-20/123</span> nhân viên
       </div>
       <div class="pagination">
         <div class="pagination__item btn__first__page">
@@ -31,7 +31,7 @@
         </div>
       </div>
       <div class="current__customer__perpage">
-        <span>20</span> lao động/trang
+        <span>20</span> nhân viên/trang
       </div>
     </footer>
   </div>

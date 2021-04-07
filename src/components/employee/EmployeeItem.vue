@@ -32,7 +32,7 @@ export default {
     formatDDMMYYY: function() {
       const newday = new Date(this.employee.DateOfBirth);
       const strDay = newday.getDate();
-      const strMonth = newday.getMonth();
+      const strMonth = newday.getMonth() + 1;
       const strYear = newday.getFullYear();
       return `${strDay}/${strMonth}/${strYear}`;
     },

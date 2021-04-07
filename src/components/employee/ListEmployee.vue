@@ -48,7 +48,7 @@
 
 <script>
 import EmployeeItem from "./EmployeeItem.vue";
-import Modal from "../component/Modal";
+import Modal from "../entity/Modal";
 import axios from "axios";
 export default {
   props: ["addModal", "deleMode", "filterByPosition", "filterByDepartment"],

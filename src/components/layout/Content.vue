@@ -71,9 +71,9 @@
 </template>
 
 <script>
-import Button from "../component/Button.vue";
-import Dropdown from "../component/Dropdown.vue";
-import Input from "../component/Input.vue";
+import Button from "../entity/Button.vue";
+import Dropdown from "../entity/Dropdown.vue";
+import Input from "../entity/Input.vue";
 import ListEmployee from "../employee/ListEmployee.vue";
 export default {
   components: { Button, Input, ListEmployee, Dropdown },
