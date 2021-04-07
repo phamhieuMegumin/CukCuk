@@ -203,12 +203,12 @@
           <div class="x__icon" @click="closeModal"></div>
         </div>
       </div>
+      <ToastMessage
+        :message="message"
+        :error="error"
+        :showMessage="showMessage"
+      />
     </div>
-    <ToastMessage
-      :message="message"
-      :error="error"
-      :showMessage="showMessage"
-    />
   </div>
 </template>
 

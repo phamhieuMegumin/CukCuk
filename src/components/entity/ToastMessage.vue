@@ -28,8 +28,8 @@ export default {
   },
   watch: {
     showMessage() {
-      this.isShow = true;
-      this.closeMessage();
+      this.isShow = !this.isShow;
+      // this.closeMessage();
     },
   },
 };
