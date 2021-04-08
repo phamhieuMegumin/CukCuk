@@ -23,7 +23,7 @@
         autocomplete="off"
       />
       <span class="validate" v-if="required && validate"
-        >this field is required</span
+        >{{ labelContent }} không được để trống</span
       >
       <div v-if="inputIcon" class="search__icon"></div>
     </div>

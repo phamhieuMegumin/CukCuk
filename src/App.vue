@@ -4,14 +4,12 @@
     <div class="content">
       <Header />
       <Content />
-      <Footer />
     </div>
   </div>
 </template>
 
 <script>
 import Content from "./components/layout/Content.vue";
-import Footer from "./components/layout/Footer.vue";
 import Header from "./components/layout/Header.vue";
 import Navbar from "./components/layout/Navbar";
 export default {
@@ -20,7 +18,6 @@ export default {
     Navbar,
     Header,
     Content,
-    Footer,
   },
 };
 </script>

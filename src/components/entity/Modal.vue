@@ -273,6 +273,7 @@ export default {
     "deleteEmployee",
   ],
   computed: {
+    // Format lại tiền
     fomatMoney() {
       let currentValue = this.employee.Salary;
       currentValue = currentValue.replaceAll(".", "");
@@ -282,11 +283,13 @@ export default {
       }
       return currentValue;
     },
+    // Format lại date
   },
   watch: {
     "employee.Salary": function() {
       if (this.employee.Salary) this.formatMoney = this.fomatMoney;
     },
+    // gán giá trị cho modal khi dblCLick
     setValue() {
       this.employee = { ...this.setValue };
       this.url = `http://api.manhnv.net/v1/Employees/${this.employee.EmployeeId}`;
@@ -300,14 +303,17 @@ export default {
       this.$emit("handleCloseModal");
       this.resetModal();
     },
+    // gán giá trị lấy đc từ custom input
     handleGetValue: function(value, name) {
       if (name == "Gender") this.employee.Gender = parseInt(value);
       if (name == "PositionId") this.employee.PositionId = value;
       if (name == "WorkStatus") this.employee.WorkStatus = parseInt(value);
       if (name == "DepartmentId") this.employee.DepartmentId = value;
     },
+    // save
     onSave: async function() {
       let data = { ...this.employee };
+      // bỏ các dấu . trước khi lưu
       if (data.Salary) data.Salary = data.Salary.replaceAll(".", "");
       try {
         await axios({
@@ -330,6 +336,7 @@ export default {
         this.showMessage = !this.showMessage;
       }
     },
+    // xóa nhân viên theo Id
     async handleDeleteEmployee() {
       try {
         await axios({
@@ -343,6 +350,7 @@ export default {
         console.log(error);
       }
     },
+    //  Lấy employee code mới
     async getEmployeeCode() {
       try {
         const data = await axios.get(
@@ -353,6 +361,7 @@ export default {
         console.log(error);
       }
     },
+    //  reset giá trị cho modal sau khi lưu
     resetModal() {
       this.getEmployeeCode();
       this.employee = {

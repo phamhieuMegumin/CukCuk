@@ -5,28 +5,44 @@
         Hiển thị <span>01-20/123</span> nhân viên
       </div>
       <div class="pagination">
-        <div class="pagination__item btn__first__page">
+        <div @click="firstPage" class="pagination__item btn__first__page">
           <div class="paginaton__icon icon__first__page"></div>
         </div>
-        <div class="pagination__item btn__prev__page">
+        <div @click="prevPage" class="pagination__item btn__prev__page">
           <div class="paginaton__icon icon__prev__page"></div>
         </div>
-        <div class="pagination__item pagination__item__num">
+        <div
+          @click="changPage(1)"
+          id="1"
+          class="pagination__item pagination__item__num"
+        >
           <span>1</span>
         </div>
-        <div class="pagination__item pagination__item__num">
+        <div
+          @click="changPage(2)"
+          id="2"
+          class="pagination__item pagination__item__num"
+        >
           <span>2</span>
         </div>
-        <div class="pagination__item pagination__item__num">
+        <div
+          @click="changPage(3)"
+          id="3"
+          class="pagination__item pagination__item__num"
+        >
           <span>3</span>
         </div>
-        <div class="pagination__item pagination__item__num">
+        <div
+          @click="changPage(4)"
+          id="4"
+          class="pagination__item pagination__item__num"
+        >
           <span>4</span>
         </div>
-        <div class="pagination__item btn__next__page">
+        <div @click="nextPage" class="pagination__item btn__next__page">
           <div class="paginaton__icon icon__next__page"></div>
         </div>
-        <div class="pagination__item btn__last__page">
+        <div @click="lastPage" class="pagination__item btn__last__page">
           <div class="paginaton__icon icon__last__page"></div>
         </div>
       </div>
@@ -38,7 +54,49 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+export default {
+  data() {
+    return {
+      currentPage: 1,
+      pageNumber: 10,
+      itemPerPage: 20,
+    };
+  },
+  methods: {
+    nextPage() {
+      if (this.currentPage < this.pageNumber)
+        this.currentPage = this.currentPage + 1;
+    },
+    prevPage() {
+      if (this.currentPage > 1) this.currentPage = this.currentPage - 1;
+    },
+    firstPage() {
+      this.currentPage = 1;
+    },
+    lastPage() {
+      this.currentPage = this.pageNumber;
+    },
+    changPage(value) {
+      this.currentPage = value;
+    },
+    async getData() {
+      try {
+        const data = await axios.get(
+          `http://api.manhnv.net/v1/Employees/employeeFilter?pageSize=${this.itemPerPage}&pageNumber=${this.currentPage}`
+        );
+        this.$emit("getPaginationData", data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+  watch: {
+    currentPage() {
+      this.getData();
+    },
+  },
+};
 </script>
 
 <style scoped>

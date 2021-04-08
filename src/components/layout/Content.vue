@@ -65,8 +65,10 @@
         :deleMode="deleMode"
         :filterByPosition="filterByPosition"
         :filterByDepartment="filterByDepartment"
+        :paginationData="paginationData"
       />
     </div>
+    <Footer @getPaginationData="getPaginationData" />
   </div>
 </template>
 
@@ -75,8 +77,9 @@ import Button from "../entity/Button.vue";
 import Dropdown from "../entity/Dropdown.vue";
 import Input from "../entity/Input.vue";
 import ListEmployee from "../employee/ListEmployee.vue";
+import Footer from "./Footer.vue";
 export default {
-  components: { Button, Input, ListEmployee, Dropdown },
+  components: { Button, Input, ListEmployee, Dropdown, Footer },
   data() {
     return {
       showModal: true,
@@ -86,6 +89,7 @@ export default {
       defaultValuePosition: true,
       filterByDepartment: "",
       filterByPosition: "",
+      paginationData: null,
     };
   },
   methods: {
@@ -103,6 +107,9 @@ export default {
         this.filterByDepartment = value;
         this.defaultValueDepartment = false;
       }
+    },
+    getPaginationData(data) {
+      this.paginationData = data;
     },
   },
 };

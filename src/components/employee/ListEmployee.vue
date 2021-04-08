@@ -51,7 +51,13 @@ import EmployeeItem from "./EmployeeItem.vue";
 import Modal from "../entity/Modal";
 import axios from "axios";
 export default {
-  props: ["addModal", "deleMode", "filterByPosition", "filterByDepartment"],
+  props: [
+    "addModal",
+    "deleMode",
+    "filterByPosition",
+    "filterByDepartment",
+    "paginationData",
+  ],
   components: {
     EmployeeItem,
     Modal,
@@ -85,6 +91,9 @@ export default {
     },
     filterByDepartment() {
       this.handleFilter();
+    },
+    paginationData() {
+      this.employees = this.paginationData;
     },
   },
 
