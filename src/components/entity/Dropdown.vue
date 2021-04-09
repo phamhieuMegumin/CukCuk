@@ -26,10 +26,10 @@ export default {
   props: [
     "optionValue",
     "optionText",
-    "labelFor",
+    "labelFor", // set label
     "dropName",
-    "value",
-    "defaultValue",
+    "value", // set lại giá trị box khi nhận dữ liệu
+    "defaultValue", // set giá trị default(nếu có)
   ],
   data() {
     return {
@@ -38,8 +38,9 @@ export default {
     };
   },
   watch: {
+    // set lại dữ liệu box
     value() {
-      console.log(this.value);
+      // console.log(this.value);
       for (let i = 0; i < this.optionValue.length; i++) {
         if (this.value == this.optionValue[i])
           this.valueCurrent = this.optionText[i];
@@ -48,14 +49,17 @@ export default {
   },
   methods: {
     changeValue: function(e) {
+      // Set text hiển thị trên box
       for (let i = 0; i < this.optionValue.length; i++) {
         if (e.target.value == this.optionValue[i])
           this.valueCurrent = this.optionText[i];
       }
       // this.defaultValue = false;
-      this.$emit("getValue", e.target.value, this.dropName);
+      // Lấy giá trị của box
+      this.$emit("getValue", e.target.value, this.dropName); // truyền giá trị và tên của drop
       this.selectOption();
     },
+    // ẩn hiện option khi chọn
     selectOption: function() {
       this.isShowOption = !this.isShowOption;
     },

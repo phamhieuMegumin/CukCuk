@@ -276,7 +276,7 @@ export default {
     // Format lại tiền
     fomatMoney() {
       let currentValue = this.employee.Salary;
-      currentValue = currentValue.replaceAll(".", "");
+      currentValue = currentValue.toString().replaceAll(".", "");
       if (this.employee.Salary.length > 3) {
         const money = currentValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         return money;
@@ -292,6 +292,14 @@ export default {
     // gán giá trị cho modal khi dblCLick
     setValue() {
       this.employee = { ...this.setValue };
+
+      this.employee.DateOfBirth = this.formatDDMMYYYY(
+        this.employee.DateOfBirth
+      );
+      this.employee.IdentityDate = this.formatDDMMYYYY(
+        this.employee.IdentityDate
+      );
+      this.employee.JoinDate = this.formatDDMMYYYY(this.employee.JoinDate);
       this.url = `http://api.manhnv.net/v1/Employees/${this.employee.EmployeeId}`;
       this.method = "put";
     },
@@ -314,7 +322,7 @@ export default {
     onSave: async function() {
       let data = { ...this.employee };
       // bỏ các dấu . trước khi lưu
-      if (data.Salary) data.Salary = data.Salary.replaceAll(".", "");
+      if (data.Salary) data.Salary = data.Salary.toString().replaceAll(".", "");
       try {
         await axios({
           method: this.method,
@@ -326,6 +334,7 @@ export default {
           (this.message = "Thêm thành công");
         this.error = false;
         this.showMessage = !this.showMessage;
+        alert("thêm thành công");
         this.closeModal();
         this.$emit("isRender"); // require reRender
         this.resetModal(); // resetModal
@@ -335,6 +344,19 @@ export default {
         this.error = true;
         this.showMessage = !this.showMessage;
       }
+    },
+    formatDDMMYYYY(date) {
+      const newDate = new Date(date);
+      let strDay = newDate.getDate();
+      if (strDay < 10) {
+        strDay = "0" + strDay;
+      }
+      let strMonth = newDate.getMonth() + 1;
+      if (strMonth < 10) {
+        strMonth = "0" + strMonth;
+      }
+      const strYear = newDate.getFullYear();
+      return `${strYear}-${strMonth}-${strDay}`;
     },
     // xóa nhân viên theo Id
     async handleDeleteEmployee() {

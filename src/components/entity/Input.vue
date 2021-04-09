@@ -45,9 +45,9 @@ export default {
     "labelFor",
     "labelContent",
     "date",
-    "value",
-    "setValue",
-    "required",
+    "value", // truyền dữ liệu
+    "setValue", // set lại giá trị cho input
+    "required", // set option required
   ],
   methods: {
     handleChange: function(e) {
